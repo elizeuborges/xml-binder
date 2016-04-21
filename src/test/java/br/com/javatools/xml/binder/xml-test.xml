@@ -1,0 +1,4 @@
+<RootTag>
+	<Tag1>${alias.umMetodoQualquer()}</Tag1>
+	<Tag1>${(new Date() + 1).format('dd-MM-yyyy')}</Tag1>
+</RootTag>
