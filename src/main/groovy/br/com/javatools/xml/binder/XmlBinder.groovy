@@ -26,6 +26,13 @@ class XmlBinder {
 		xml = url
 	}
 	
+	/**
+	 * Adiciona todos os valores dos campos deste objeto 
+	 * que possua a chave no xml igual ao campo no xml
+	 * <br><br>
+	 * <b>Ex:</b><br>
+	 * 
+	 */
 	def bind(objeto){
 		values.putAll(toMap(objeto))
 	}
