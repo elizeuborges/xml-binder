@@ -1,5 +1,9 @@
 package br.com.javatools.xml.binder
 
+import java.io.Writer;
+
+import org.codehaus.groovy.runtime.InvokerHelper;
+
 import groovy.text.SimpleTemplateEngine
 import groovy.text.Template;
 import groovy.util.logging.Slf4j;
@@ -9,6 +13,8 @@ class XmlBinder {
 	private Map values = [:]
 
 	private def xml
+	
+	Configuracoes configuracoes = new Configuracoes()
 	
 	XmlBinder(String xml){
 		this.xml = xml
@@ -39,18 +45,32 @@ class XmlBinder {
 	}
 
 	def void bind(String key, Object valor){
-		values.put key, valor
+		values.put key, formatIfNecessary(valor)
 	}
 
 	def String getXml() {
 		SimpleTemplateEngine engine = new SimpleTemplateEngine();
 		Template template = engine.createTemplate xml
+		setUp()
 		template.make(values).toString()
 	}
 
+	def private setUp(){
+		bind(configuracoes)
+	}
+	
 	def private Map toMap(object) {
 		object.class.declaredFields.findAll { !it.synthetic }.collectEntries {
-			[ (it.name):object."$it.name" ]
+			[ (it.name) : formatIfNecessary(object."$it.name") ]
 		}
 	}
+	
+	def private formatIfNecessary(object){
+		if(object instanceof Date){
+			return object.format(configuracoes.defaultDataPattern)
+		} else {
+			return object
+		}
+	}
+	
 }

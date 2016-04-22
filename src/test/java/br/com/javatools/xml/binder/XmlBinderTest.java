@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Test;
@@ -29,9 +31,32 @@ public class XmlBinderTest {
 	}
 	
 	@Test
+	public void deveFormatarDatasPorPadrao() throws Exception {
+		String xml = "<Data>${data}</Data>";
+		XmlBinder binder = new XmlBinder(xml);
+		Date data = new Date();
+		binder.bind("data", data);
+		String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(data);
+		assertThat(binder.getXml(), is("<Data>"+dataFormatada+"</Data>"));
+	}
+	
+	@Test
+	public void devePermitirConfigurarOutroFormatoDeData() throws Exception {
+		String xml = "<Data>${data}</Data>";
+		XmlBinder binder = new XmlBinder(xml);
+		Date data = new Date();
+		String formatoDasDatas = "dd-MM";
+		binder.getConfiguracoes().setDefaultDataPattern(formatoDasDatas);
+		binder.bind("data", data);
+		
+		String dataFormatada = new SimpleDateFormat(formatoDasDatas).format(data);
+		assertThat(binder.getXml(), is("<Data>"+dataFormatada+"</Data>"));
+	}
+	
+	@Test
 	public void deveSerPossivelInvocarMetodosEstaticos() throws Exception {
 		String xml = ""
-				+ "<% import static br.com.javatools.xml.binder.XmlBinderTest.* %>"
+				+ "<% import static br.com.javatools.xml.binder.XmlBinderTest.umMetodoQualquer %>"
 				+"<RootTag>\n"
 				+"\t<Tag1>${umMetodoQualquer()}</Tag1>\n"
 				+"</RootTag>";
