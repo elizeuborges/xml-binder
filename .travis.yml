@@ -1,4 +1,4 @@
-language: groovy
+language: java
 sudo: false
 
 after_success:
