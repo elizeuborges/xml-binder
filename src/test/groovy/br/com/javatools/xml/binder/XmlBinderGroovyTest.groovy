@@ -27,7 +27,6 @@ class XmlBinderGroovyTest {
 		String propriedade1 = "valor"
 		binder.bind "propriedade1", propriedade1
 		String xml = binder.getXml()
-		log.info xml
 		assertThat(xml, containsString("<Tag1>${propriedade1}</Tag1>"))
 	}
 
@@ -44,7 +43,6 @@ class XmlBinderGroovyTest {
 		
 		binder.bind "alias", this
 		String xml = binder.getXml()
-		log.info xml
 		assertThat(xml, containsString("<Tag1>${umMetodoQualquer()}</Tag1>"))
 	}
 	
@@ -74,7 +72,6 @@ class XmlBinderGroovyTest {
 		
 		binder.bind(new ObjetoQualquer())
 		String xml = binder.getXml()
-		log.info xml
 		assertThat(xml, 
 			allOf(
 				containsString("<Field1>valorField1</Field1>"), 
