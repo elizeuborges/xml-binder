@@ -56,6 +56,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
 				<configuration>
 					<compilerId>groovy-eclipse-compiler</compilerId>
 					<source>1.8</source>
