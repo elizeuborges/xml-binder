@@ -25,6 +25,11 @@
 		<url>https://github.com/elizeuborges/xml-binder/issues</url>
 	</issueManagement>
 
+	<properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -61,6 +66,7 @@
 					<compilerId>groovy-eclipse-compiler</compilerId>
 					<source>1.8</source>
 					<target>1.8</target>
+					<extensions>true</extensions>
 				</configuration>
 				<dependencies>
 					<dependency>
