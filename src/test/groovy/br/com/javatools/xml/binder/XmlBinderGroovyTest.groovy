@@ -12,11 +12,6 @@ class XmlBinderGroovyTest {
 
 	XmlBinder binder;
 	
-	@Before
-	public void setUp() throws Exception {
-		
-	}
-
 	@Test
 	void deveSetarUnicaPropriedade() {
 		binder = new XmlBinder(
