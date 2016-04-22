@@ -1,11 +1,14 @@
 package br.com.javatools.xml.binder;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.After;
@@ -28,6 +31,20 @@ public class XmlBinderTest {
 	
 	public static String umMetodoQualquer(){
 		return "umValor";
+	}
+	
+	@Test
+	public void deveSerPossivelFazerOperacoesComDatasNoXml() throws Exception {
+		String xml = "<Data>${data + 1}</Data>";
+		XmlBinder binder = new XmlBinder(xml);
+		LocalDate data = LocalDate.now();
+		binder.bind("data", toDate(data));
+		String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(toDate(data.plusDays(1)));
+		assertThat(binder.getXml(), is("<Data>"+dataFormatada+"</Data>"));
+	}
+
+	private Date toDate(LocalDate data) {
+		return Date.from(data.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 	
 	@Test

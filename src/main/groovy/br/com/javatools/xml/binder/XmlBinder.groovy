@@ -41,11 +41,11 @@ class XmlBinder {
 	 * 
 	 */
 	def void bind(objeto){
-		values.putAll(toMap(objeto))
+		toMap(objeto).forEach { key, value -> bind key, value }
 	}
 
 	def void bind(String key, Object valor){
-		values.put key, formatIfNecessary(valor)
+		values.put key, PrettyToStringWrapper.wrapper(valor, configuracoes)
 	}
 
 	def String getXml() {
@@ -61,15 +61,7 @@ class XmlBinder {
 	
 	def private Map toMap(object) {
 		object.class.declaredFields.findAll { !it.synthetic }.collectEntries {
-			[ (it.name) : formatIfNecessary(object."$it.name") ]
-		}
-	}
-	
-	def private formatIfNecessary(object){
-		if(object instanceof Date){
-			return object.format(configuracoes.defaultDataPattern)
-		} else {
-			return object
+			[ (it.name) : object."$it.name" ]
 		}
 	}
 	
