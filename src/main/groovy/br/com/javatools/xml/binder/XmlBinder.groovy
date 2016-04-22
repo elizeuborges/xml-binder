@@ -33,11 +33,11 @@ class XmlBinder {
 	 * <b>Ex:</b><br>
 	 * 
 	 */
-	def bind(objeto){
+	def void bind(objeto){
 		values.putAll(toMap(objeto))
 	}
 
-	def bind(String key, Object valor){
+	def void bind(String key, Object valor){
 		values.put key, valor
 	}
 
