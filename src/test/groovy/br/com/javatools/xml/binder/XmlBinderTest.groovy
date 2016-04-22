@@ -6,11 +6,9 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Before;
 import org.junit.Test
 
-import br.com.javatools.xml.binder.DocumentBinderTest.ObjetoQualquer;
 import groovy.util.logging.Slf4j;;
 
-@Slf4j
-class DocumentBinderTest {
+class XmlBinderGroovyTest {
 
 	XmlBinder binder;
 	
