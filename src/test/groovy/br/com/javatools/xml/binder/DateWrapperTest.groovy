@@ -9,32 +9,32 @@ import org.junit.Test;
 class DateWrapperTest {
 
 	DateWrapper wrapper;
+	
 	def dataPattern = "dd/MM/yy"
 	
 	@Before
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		wrapper = new DateWrapper(when: new Date(), defaultDataPattern: dataPattern)
 	}
 
 	@Test
-	public void testToString() {
-		assertThat wrapper.toString(), is(new Date().format(dataPattern))
+	void 'deve converter data conforme padrão informado'() {
+		assertThat(wrapper.toString(), is(new Date().format(dataPattern)))
 	}
 
 	@Test
-	public void testPlus() {
-		assertThat((wrapper + 1).toString(), is(new DateWrapper(when: new Date()+1, defaultDataPattern: dataPattern).toString()))
+	void 'deve se possível somar datas'() {
+		assertThat(wrapper.plus(1).toString(), is(new DateWrapper(when: new Date() + 1, defaultDataPattern: dataPattern).toString()))
 	}
 
 	@Test
-	public void testMinus() {
-		assertThat((wrapper - 1).toString(), is(new DateWrapper(when: new Date()-1, defaultDataPattern: dataPattern).toString()))
+	void 'deve ser possível subtrair datas'() {
+		assertThat(wrapper.minus(1).toString(), is(new DateWrapper(when: new Date() - 1, defaultDataPattern: dataPattern).toString()))
 	}
 
 	@Test
-	public void deveRetornarDateWrapperEmAdicao() {
-		assertThat((wrapper + 1), is(DateWrapper.class))
+	void 'deve retornar date wrapper em adicao'() {
+		assertThat(wrapper.plus(1), is(DateWrapper.class))
 	}
-	
 
 }

@@ -6,14 +6,12 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Before;
 import org.junit.Test
 
-import groovy.util.logging.Slf4j;;
-
 class XmlBinderGroovyTest {
 
 	XmlBinder binder;
 	
 	@Test
-	void deveSetarUnicaPropriedade() {
+	void 'deve setar unica propriedade'() {
 		binder = new XmlBinder(
 			'''<RootTag>
 					<Tag1>$propriedade1</Tag1>
@@ -22,27 +20,28 @@ class XmlBinderGroovyTest {
 		String propriedade1 = "valor"
 		binder.bind "propriedade1", propriedade1
 		String xml = binder.getXml()
-		assertThat(xml, containsString("<Tag1>${propriedade1}</Tag1>"))
+		assertThat(xml, containsString("<Tag1>valor</Tag1>"))
 	}
 
-	private String umMetodoQualquer(){
-		return "umValor"
-	}
-	
 	@Test
-	void deveSetarSerPossivelInvocarMetodosApartirDoXml() {
+	void 'deve ser possivel invocar metodos à partir do xml'() {
+		
+		def classe = [
+				umMetodoQualquer: { return "um valor" }
+			]
+		
 		binder = new XmlBinder(
 			'''<RootTag>
 					<Tag1>${alias.umMetodoQualquer()}</Tag1>
 				</RootTag>''')
 		
-		binder.bind "alias", this
+		binder.bind "alias", classe
 		String xml = binder.getXml()
-		assertThat(xml, containsString("<Tag1>${umMetodoQualquer()}</Tag1>"))
+		assertThat(xml, containsString("<Tag1>um valor</Tag1>"))
 	}
 	
 	@Test
-	void deveSetarPropriedadeComAlias() {
+	void 'deve setar propriedade com alias'() {
 		binder = new XmlBinder(
 			'''<RootTag>
 					<Tag1>${alias.field1}</Tag1>
@@ -52,11 +51,11 @@ class XmlBinderGroovyTest {
 		obj.field1 = "fasfadaswe"
 		binder.bind "alias", obj
 		String xml = binder.getXml()
-		assertThat(xml, containsString("<Tag1>${obj.field1}</Tag1>"))
+		assertThat(xml, containsString("<Tag1>fasfadaswe</Tag1>"))
 	}
 	
 	@Test
-	void deveSetarValoresConformeFieldDoObjeto() {
+	void 'deve setar valores conforme field do objeto'() {
 		binder = new XmlBinder(
 			'''<RootTag>
 					<Field1>${field1}</Field1>

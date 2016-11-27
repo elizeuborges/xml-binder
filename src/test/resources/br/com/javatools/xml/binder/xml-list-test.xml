@@ -1,0 +1,6 @@
+<RootTag>
+<% lista.each {
+	print "<TagFixa>Valor</TagFixa>"
+	print "<Tag1>${it}</Tag1>"
+} %>
+</RootTag>

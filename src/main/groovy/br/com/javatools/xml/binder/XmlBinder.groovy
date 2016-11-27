@@ -5,7 +5,8 @@ import java.io.Writer;
 import org.codehaus.groovy.runtime.InvokerHelper;
 
 import groovy.text.SimpleTemplateEngine
-import groovy.text.Template;
+import groovy.text.Template
+import groovy.text.TemplateEngine;
 import groovy.util.logging.Slf4j;
 
 class XmlBinder {
@@ -41,7 +42,7 @@ class XmlBinder {
 	 * 
 	 */
 	def void bind(objeto){
-		toMap(objeto).forEach { key, value -> bind key, value }
+		ObjectToMapConverter.toMap(objeto).forEach { key, value -> bind key, value }
 	}
 
 	def void bind(String key, Object valor){
@@ -49,7 +50,7 @@ class XmlBinder {
 	}
 
 	def String getXml() {
-		SimpleTemplateEngine engine = new SimpleTemplateEngine();
+		TemplateEngine engine = new SimpleTemplateEngine();
 		Template template = engine.createTemplate xml
 		setUp()
 		template.make(values).toString()
@@ -57,12 +58,6 @@ class XmlBinder {
 
 	def private setUp(){
 		bind(configuracoes)
-	}
-	
-	def private Map toMap(object) {
-		object.class.declaredFields.findAll { !it.synthetic }.collectEntries {
-			[ (it.name) : object."$it.name" ]
-		}
 	}
 	
 }

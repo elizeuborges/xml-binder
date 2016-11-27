@@ -2,13 +2,14 @@ package br.com.javatools.xml.binder;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.After;
@@ -68,6 +69,15 @@ public class XmlBinderTest {
 		
 		String dataFormatada = new SimpleDateFormat(formatoDasDatas).format(data);
 		assertThat(binder.getXml(), is("<Data>"+dataFormatada+"</Data>"));
+	}
+	
+	@Test
+	public void deveSerPossivelIterarPorLista() throws Exception {
+		XmlBinder binder = new XmlBinder(XmlBinderTest.class.getClassLoader().getResource("br/com/javatools/xml/binder/xml-list-test.xml"));
+		binder.bind("lista", Arrays.asList("Valor1", "Valor2"));
+		xmlMontado = binder.getXml();
+		assertThat(xmlMontado, containsString("<Tag1>Valor1</Tag1>"));
+		assertThat(xmlMontado, containsString("<Tag1>Valor2</Tag1>"));
 	}
 	
 	@Test

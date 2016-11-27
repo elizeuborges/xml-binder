@@ -8,13 +8,13 @@ import org.junit.Test;
 class PrettyToStringWrapperTest {
 
 	@Test
-	public void deveEmpacotarDatas() {
+	void 'deve empacotar datas'() {
 		def data = PrettyToStringWrapper.wrapper new Date(), new Configuracoes()
 		assertThat data, is(DateWrapper.class)
 	}
 
 	@Test
-	public void naoDeveEmpacotarSeNaoForDatas() {
+	void 'nao deve empacotar se não for datas'() {
 		def data = PrettyToStringWrapper.wrapper "oias", new Configuracoes()
 		assertThat data, is(String.class)
 	}
